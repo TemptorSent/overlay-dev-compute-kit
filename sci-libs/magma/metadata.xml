@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="project">
+    <email>sci@gentoo.org</email>
+    <name>Gentoo Science Project</name>
+  </maintainer>
+  <longdescription lang="en">
+  The Matrix Algebra on GPU and Multicore Architectures
+  project aims to develop a dense linear algebra library
+  similar to LAPACK but for heterogeneous/hybrid architectures, starting
+  with current "Multicore+GPU" systems.
+</longdescription>
+  <use>
+    <flag name="nvidia_cuda_fermi">Fermi - NVIDIA compute capability 2.x cards
+    <flag name="nvidia_cuda_kepler">Kepler - NVIDIA compute capability 3.x cards
+    <flag name="nvidia_cuda_maxwell">Maxwell - NVIDIA compute capability 5.x cards
+    <flag name="nvidia_cuda_pascal">Pascal - NVIDIA compute capability 6.x cards
+    <flag name="nvidia_cuda_volta">Volta - NVIDIA compute capability 7.x cards
+  </use>
+</pkgmetadata>
