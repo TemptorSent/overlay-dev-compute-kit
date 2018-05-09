@@ -24,3 +24,9 @@ src_test() {
 	# Run all tests
 	emake tests lapack-test blas-test
 }
+
+src_install() {
+	default
+	insinto /etc/env.d/blas/$(get_libdir)
+	newins "${FILESDIR}/openblas.eselect" "openblas"
+}
