@@ -29,5 +29,4 @@ src_install() {
 	default
 	insinto /etc/env.d/blas/$(get_libdir)
 	newins "${FILESDIR}/openblas.eselect.envd" "openblas"
-
-
+}
