@@ -86,29 +86,43 @@ src_configure() {
 	use nvidia_cuda_maxwell && GPU_TARGET=+" Maxwell"
 	use nvidia_cuda_pascal && GPU_TARGET=+" Pascal"
 	use nvidia_cuda_volta && GPU_TARGET=+" Volta"
+
 	CUDADIR="${EPREFIX}/opt/cuda"
-	cat <<-EOF > make.inc
-		ARCH = $(tc-getAR)
-		ARCHFLAGS = cr
-		RANLIB = $(tc-getRANLIB)
-		NVCC = nvcc
-		CC = $(tc-getCC)
-		CXX = $(tc-getCXX)
-		FORT = $(tc-getFC)
-		INC = -I"${EPREFIX}/opt/cuda/include" -DADD_ -DCUBLAS_GFORTRAN
-		OPTS = ${CFLAGS} -fPIC
-		FOPTS = ${FFLAGS} -fPIC -x f95-cpp-input
-		F77OPTS = ${FFLAGS} -fPIC
-		NVOPTS = -DADD_ -DUNIX ${NVCCFLAGS}
-		LDOPTS = ${LDFLAGS}
-		LOADER = $(tc-getFC)
-		LIBBLAS = $($(tc-getPKG_CONFIG) --libs cblas)
-		LIBLAPACK = $($(tc-getPKG_CONFIG) --libs lapack)
-		CUDADIR = ${EPREFIX}/opt/cuda
-		LIBCUDA = -L\$(CUDADIR)/$(get_libdir) -lcublas -lcudart
-		LIB = -pthread -lm -ldl \$(LIBCUDA) \$(LIBBLAS) \$(LIBLAPACK) -lstdc++
-		GPU_TARGET =${GPU_TARGET}
-	EOF
+	OPENBLASDIR="${EPREFIX}/opt/OpenBLAS"
+	cat make.inc-examples/make.inc.openblas \
+		| sed \
+			-e 's:^#?GPU_TARGET .*=.*:GPU_TARGET = '"${GPU_TARGET}"':' \
+			-e 's:^#?CUDADIR .*=.*:CUDADIR = '"${CUDADIR}"':' \
+			-e 's:^#?OPENBLASDIR .*=.*:OPENBLASDIR = '"${OPENBLASDIR}"':' \
+			-e 's:^#?CC .*=.*:CC = '"$(tc-getCC)"':' \
+			-e 's:^#?CXX .*=.*:CXX = '"$(tc-getCXX)"':' \
+			-e 's:^#?NVCC .*=.*:NVCC = '"${NVCC}"':' \
+			-e 's:^#?FORT .*=.*:FORT = '"$(tc-getFC)"':' \
+			-e 's:^#?ARCH .*=.*:ARCH = '"$(tc-getAR)"':' \
+			-e 's:^#?RANLIB .*=.*:RANLIB = '"$(tc-getRANLIB)"':' \
+		> make.inc
+#	cat <<-EOF > make.inc
+#		ARCH = $(tc-getAR)
+#		ARCHFLAGS = cr
+#		RANLIB = $(tc-getRANLIB)
+#		NVCC = nvcc
+#		CC = $(tc-getCC)
+#		CXX = $(tc-getCXX)
+#		FORT = $(tc-getFC)
+#		INC = -I"${EPREFIX}/opt/cuda/include" -DADD_ -DCUBLAS_GFORTRAN
+#		OPTS = ${CFLAGS} -fPIC
+#		FOPTS = ${FFLAGS} -fPIC -x f95-cpp-input
+#		F77OPTS = ${FFLAGS} -fPIC
+#		NVOPTS = -DADD_ -DUNIX ${NVCCFLAGS}
+#		LDOPTS = ${LDFLAGS}
+#		LOADER = $(tc-getFC)
+#		LIBBLAS = $($(tc-getPKG_CONFIG) --libs cblas)
+#		LIBLAPACK = $($(tc-getPKG_CONFIG) --libs lapack)
+#		CUDADIR = ${EPREFIX}/opt/cuda
+#		LIBCUDA = -L\$(CUDADIR)/$(get_libdir) -lcublas -lcudart
+#		LIB = -pthread -lm -ldl \$(LIBCUDA) \$(LIBBLAS) \$(LIBLAPACK) -lstdc++
+#		GPU_TARGET =${GPU_TARGET}
+#	EOF
 }
 
 src_compile() {
