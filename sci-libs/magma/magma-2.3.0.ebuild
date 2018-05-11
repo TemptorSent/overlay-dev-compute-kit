@@ -24,9 +24,10 @@ IUSE="${NVIDIA_CUDA_CARDS} static-libs test"
 REQUIRED_USE="?? ( nvidia_cuda_fermi nvidia_cuda_kepler nvidia_cuda_maxwell nvidia_cuda_pascal nvidia_cuda_volta )"
 
 RDEPEND="
-	dev-util/nvidia-cuda-toolkit
-	virtual/cblas
-	virtual/lapack"
+	sci-util/openblas
+	dev-util/nvidia-cuda-toolkit"
+#	virtual/cblas
+#	virtual/lapack"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	test? ( ${PYTHON_DEPS} )"
@@ -63,8 +64,8 @@ src_prepare() {
 	else
 		elog "Cannot detect compiler type so not setting openmp support"
 	fi
-	append-flags -fPIC ${eopenmp}
-	append-ldflags -Wl,-soname,lib${PN}.so.1.4 ${eopenmp}
+	#append-flags -fPIC ${eopenmp}
+	#append-ldflags -Wl,-soname,lib${PN}.so.1.4 ${eopenmp}
 
 	cuda_src_prepare
 }
@@ -89,6 +90,7 @@ src_configure() {
 
 	CUDADIR="${EPREFIX}/opt/cuda"
 	OPENBLASDIR="${EPREFIX}/opt/OpenBLAS"
+	export GPU_TARGET CUDADIR OPENBLASDIR
 	cat make.inc-examples/make.inc.openblas \
 		| sed \
 			-e 's:^#?GPU_TARGET .*=.*:GPU_TARGET = '"${GPU_TARGET}"':' \
