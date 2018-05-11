@@ -28,7 +28,7 @@ RDEPEND="
 	examples? (
 		media-libs/freeimage
 		media-libs/glew:0=
-		>=x11-drivers/nvidia-drivers-384.81[uvm]
+		>=x11-drivers/nvidia-drivers-${DRIVER_PV}[uvm]
 		mpi? ( virtual/mpi )
 		)"
 DEPEND="${RDEPEND}"
