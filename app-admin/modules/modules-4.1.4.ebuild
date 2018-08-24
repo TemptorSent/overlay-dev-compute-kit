@@ -12,10 +12,14 @@ KEYWORDS="*"
 IUSE="+compat test +doc +examples"
 
 CDEPEND=">=dev-lang/tcl-8.4 >=dev-tcltk/tclx-8.4"
-DOCDEPEND="doc? ( dev-python/sphinx )"
-TESTDEPEND="test? ( dev-util/dejagnu app-shells/tcsh )"
-COMPATDEPEND="compat? ( sys-devel/gettext sys-devel/autoconf sys-devel/automake )"
-DEPEND="${CDEPEND} ${DOCDEPEND} ${TESTDEPEND} ${COMPATDEPEND}"
+DOCDEPEND="dev-python/sphinx"
+TESTDEPEND="dev-util/dejagnu app-shells/tcsh"
+COMPATDEPEND="sys-devel/gettext sys-devel/autoconf sys-devel/automake"
+DEPEND="${CDEPEND}
+	doc? ( ${DOCDEPEND} )
+	compat? ( ${COMPATDEPEND} )
+	test? ( ${TESTDEPEND} )
+"
 RDEPEND="${CDEPEND}"
 
 src_configure() {
