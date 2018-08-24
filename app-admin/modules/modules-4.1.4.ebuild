@@ -9,7 +9,7 @@ SRC_URI="https://github.com/cea-hpc/modules/releases/download/v${PV}/${P}.tar.bz
 LICENSE="GPL-2"
 SLOT="${PV}"
 KEYWORDS="*"
-IUSE="+compat test +doc"
+IUSE="+compat test +doc +examples"
 
 CDEPEND=">=dev-lang/tcl-8.4 >=dev-tcltk/tclx-8.4"
 DOCDEPEND="doc? ( dev-python/sphinx )"
@@ -20,7 +20,7 @@ RDEPEND="${CDEPEND}"
 
 src_configure() {
 	econf \
-	--without-tclx \
+	$(use_enable examples example-modulefiles) \
 	$(use_enable compat compat-version) \
 	--enable-versioning
 }
