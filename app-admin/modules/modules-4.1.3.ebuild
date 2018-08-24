@@ -9,17 +9,20 @@ SRC_URI="https://github.com/cea-hpc/modules/releases/download/v${PV}/${P}.tar.bz
 LICENSE="GPL-2"
 SLOT="${PV}"
 KEYWORDS="*"
-IUSE="+compat test +doc +examples"
+
+IUSE="+compat +doc +examples test"
 
 CDEPEND=">=dev-lang/tcl-8.4 >=dev-tcltk/tclx-8.4"
 DOCDEPEND="dev-python/sphinx"
 TESTDEPEND="dev-util/dejagnu app-shells/tcsh"
 COMPATDEPEND="sys-devel/gettext sys-devel/autoconf sys-devel/automake"
+
 DEPEND="${CDEPEND}
 	doc? ( ${DOCDEPEND} )
 	compat? ( ${COMPATDEPEND} )
 	test? ( ${TESTDEPEND} )
 "
+
 RDEPEND="${CDEPEND}"
 
 src_configure() {
@@ -31,7 +34,7 @@ src_configure() {
 
 src_compile() {
 	default
-	use doc &&	emake -C doc all
+	use doc && emake -C doc all
 }
 
 src_test() {
