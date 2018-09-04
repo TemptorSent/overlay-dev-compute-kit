@@ -101,7 +101,7 @@ src_prepare() {
 	# --without-loadlibfile is supposed to do this for us...
 	sed -i '/mk_default_ld_lib_file || return 1/d' buildutils/pbs_mkdirs.in || die
 	# Don't try to run /sbin/ldconfig during install, we do that at merge time.
-	sed -e 's:/sbin/ldconfig;:/bin/true:g' -i src/{resmom,daemon_client}/Makefile{,.am,.in} || die
+	sed -e 's:/sbin/ldconfig;:/bin/true:g' -i src/{resmom,daemon_client}/Makefile.am || die
 	eapply_user
 	_elibtoolize
 	eautoreconf
