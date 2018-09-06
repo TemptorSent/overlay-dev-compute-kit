@@ -156,6 +156,8 @@ src_install() {
 	if use server; then
 		newinitd "${FILESDIR}"/pbs_server-init.d-munge pbs_server
 		newinitd "${FILESDIR}"/pbs_sched-init.d pbs_sched
+		exeinto "${PBS_SERVER_HOME}/scripts"
+		doexe torque.setup
 	fi
 	newinitd "${FILESDIR}"/pbs_mom-init.d-munge pbs_mom
 	newconfd "${FILESDIR}"/${PN}-conf.d-munge ${PN}
@@ -187,9 +189,14 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	elog "    If this is the first time torque has been installed, then you are not"
-	elog "ready to start the server.  Please refer to the documentation located at:"
-	elog "http://docs.adaptivecomputing.com/torque/${PN//./-}/Content/topics/1-installConfig/initializeConfigOnServer.htm"
+	if use server ; then
+		elog "    If this is the first time torque has been installed, then you are not"
+		elog "ready to start the server.  Please refer to the documentation located at:"
+		elog "http://docs.adaptivecomputing.com/torque/${MY_PV//./-}/adminGuide/torque.htm"
+		elog " > Chapter 2: Installation and Configuration"
+		elog "For basic configuration, as root, run the following and follow usage help:"
+		elog "    ${PBS_SERVER_HOME}/scripts/torque.setup"
+	fi
 	if [[ -z "${REPLACING_VERSIONS}" ]] || [[ ${REPLACING_VERSIONS} < 4 ]]; then
 		echo
 		elog "Important 4.0+ updates"
