@@ -191,7 +191,8 @@ pkg_preinst() {
 pkg_postinst() {
 	chown -R root.root "${PBS_SERVER_HOME}"
 	chmod 1775 "${PBS_SERVER_HOME}"
-	chmod 1777 "${PBS_SERVER_HOME}"/{spool,undelivered}
+	chmod 1777 "${PBS_SERVER_HOME}"/spool
+	touch "${PBS_SERVER_HOME}/pbs_environment"
 
 	if use server ; then
 		elog "    If this is the first time torque has been installed, then you are not"
